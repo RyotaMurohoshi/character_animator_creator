@@ -1,6 +1,6 @@
-# MrStarBase
+# Unity Project Base
 
-Code snippets for Unity.
+Unity project template.
 
 # Author
 Ryota Murohoshi is game Programmer in Japan.
