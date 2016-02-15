@@ -1,6 +1,6 @@
-# Unity Project Base
+# Character Animator Creator
 
-Unity project template.
+Character Animator Creator for Unity
 
 # Author
 Ryota Murohoshi is game Programmer in Japan.
