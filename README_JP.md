@@ -1,10 +1,6 @@
-# Unity Project Base
+# Character Animator Creator
 
-Unityのプロジェクトのひな型です。
-
-* .gitignore
-* プロジェクトノートの下にunityというプロジェクト
-* メタファイルをテキスト形式で有効化済み
+Character Animator Creator for Unity
 
 # 作者
 
