@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class SpriteAnimationClipCreatorExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Create AnimationClip")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Example/Create AnimationClip")]
     public static void CreateAnimationClip()
     {
         IEnumerable<Sprite> sprites = Selection.objects.OfType<Sprite>();

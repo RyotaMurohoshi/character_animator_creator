@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class SingleStateAnimatorControllerExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Create AnimatorController")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Example/Create AnimatorController")]
     public static void CreateAnimatorController()
     {
         IEnumerable<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>();
