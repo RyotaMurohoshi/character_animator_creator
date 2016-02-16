@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class SpriteDividerExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Divide Textures")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Example/Divide Textures")]
     public static void DivideImages()
     {
         int horizontalCount = 4;
