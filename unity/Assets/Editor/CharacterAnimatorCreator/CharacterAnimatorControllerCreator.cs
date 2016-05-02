@@ -14,7 +14,9 @@ public enum CharacterState
     Left,
     Right,
     Up,
-    Down
+    Down,
+    Walk,
+    Win
 }
 
 public static class CharacterAnimatorControllerCreator
