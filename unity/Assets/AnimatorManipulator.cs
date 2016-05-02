@@ -43,6 +43,14 @@ public class AnimatorManipulator : MonoBehaviour
         {
             PlayStateAll("Hit");
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            PlayStateAll("Walk");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayStateAll("Win");
+        }
     }
 
     void PlayStateAll(string stateName)
