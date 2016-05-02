@@ -122,6 +122,14 @@ public static class CharacterAnimatorCreator
                 CharacterState.Up,
                 CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Up.anim", outputDirectoryName), 0.2F, sprites[0][9], sprites[0][10], sprites[0][11], sprites[0][10])
             },
+            {
+                CharacterState.Walk,
+                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Walk.anim", outputDirectoryName), 0.2F, sprites[1][9], sprites[1][10], sprites[1][11], sprites[1][10])
+            },
+            {
+                CharacterState.Win,
+                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Win.anim", outputDirectoryName), 0.2F, sprites[2][0], sprites[2][1], sprites[2][2], sprites[2][1])
+            },
         };
     }
 
