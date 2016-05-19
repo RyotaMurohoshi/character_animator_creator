@@ -7,26 +7,22 @@ using System.Collections.Generic;
 public static class CharacterAnimatorCreator
 {
     static readonly string ResourcesFolderName;
-    static readonly string AnimationClipFolderName;
     static readonly string AnimatorControllerFolderName;
     static readonly string PrefabFolderName;
 
     static readonly string AssetsPath;
     static readonly string ResourcesPath;
-    static readonly string AnimationClipPath;
     static readonly string AnimatorControllerPath;
     static readonly string PrefabPath;
 
     static CharacterAnimatorCreator()
     {
         ResourcesFolderName = "Resources";
-        AnimationClipFolderName = "AnimationClip";
         AnimatorControllerFolderName = "AnimatorController";
         PrefabFolderName = "Prefab";
 
         AssetsPath = "Assets";
         ResourcesPath = string.Format("{0}/{1}", AssetsPath, ResourcesFolderName);
-        AnimationClipPath = string.Format("{0}/{1}", ResourcesPath, AnimationClipFolderName);
         AnimatorControllerPath = string.Format("{0}/{1}", ResourcesPath, AnimatorControllerFolderName);
         PrefabPath = string.Format("{0}/{1}", ResourcesPath, PrefabFolderName);
     }
@@ -50,10 +46,8 @@ public static class CharacterAnimatorCreator
     static void TextureToAnimatiorController(string name)
     {
         CreateFolderIfNotExist(AssetsPath, ResourcesFolderName);
-        CreateFolderIfNotExist(ResourcesPath, AnimationClipFolderName);
         CreateFolderIfNotExist(ResourcesPath, AnimatorControllerFolderName);
         CreateFolderIfNotExist(ResourcesPath, PrefabFolderName);
-        CreateFolderIfNotExist(AnimationClipPath, name);
 
         var suffixArray = new[] { "", "_1", "_2", "_3" };
         var texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix));
@@ -68,11 +62,9 @@ public static class CharacterAnimatorCreator
             .Select(texurePath => Resources.LoadAll<Sprite>(texurePath).ToList())
             .ToList();
 
-        string animationClipsOutputFolderName = string.Format("{0}/{1}", AnimationClipPath, name);
-        Dictionary<CharacterState, SpriteAnimationClipDefinition> definitionDict =
-            CreateCharacterAnimatorDefinition(listOfSpriteList, animationClipsOutputFolderName);
+        Dictionary<CharacterState, SpriteAnimationClipDefinition> definitionDict = CreateCharacterAnimatorDefinition(listOfSpriteList);
         Dictionary<CharacterState, AnimationClip> animationClipDictionary = definitionDict
-            .Select(entry => new { Key = entry.Key, Value = SpriteAnimationClipCreator.CreateAnimationClip(entry.Value) })
+            .Select(entry => new { Key = entry.Key, Value = SpriteAnimationClipCreator.ConvertToAnimationClip(entry.Value) })
             .ToDictionary(entry => entry.Key, entry => entry.Value);
 
         string animatorControllerPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name);
@@ -83,57 +75,57 @@ public static class CharacterAnimatorCreator
         CreatePrefab(animatorController, prefabPath);
     }
 
-    static Dictionary<CharacterState, SpriteAnimationClipDefinition> CreateCharacterAnimatorDefinition(List<List<Sprite>> sprites, string outputDirectoryName)
+    static Dictionary<CharacterState, SpriteAnimationClipDefinition> CreateCharacterAnimatorDefinition(List<List<Sprite>> sprites)
     {
         return new Dictionary<CharacterState, SpriteAnimationClipDefinition>{
             {
                 CharacterState.Default,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Default.anim", outputDirectoryName), 0.2F, sprites[1][0], sprites[1][1], sprites[1][2], sprites[1][1])
+                CreateSpriteAnimationClipDefinition (true, "Default", 0.2F, sprites[1][0], sprites[1][1], sprites[1][2], sprites[1][1])
             },
             {
                 CharacterState.Dead,
-                CreateSpriteAnimationClipDefinition (false, string.Format("{0}/Dead.anim", outputDirectoryName), 0.2F, sprites[2][9], sprites[2][10],sprites[2][11])
+                CreateSpriteAnimationClipDefinition (false, "Dead", 0.2F, sprites[2][9], sprites[2][10],sprites[2][11])
             },
             {
                 CharacterState.Pinch,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Pinch.anim", outputDirectoryName), 0.2F, sprites[1][6], sprites[1][7], sprites[1][8], sprites[1][7])
+                CreateSpriteAnimationClipDefinition (true, "Pinch", 0.2F, sprites[1][6], sprites[1][7], sprites[1][8], sprites[1][7])
             },
             {
                 CharacterState.Hit,
-                CreateSpriteAnimationClipDefinition (false, string.Format("{0}/Hit.anim", outputDirectoryName), 0.1F, sprites[1][3], sprites[1][4], sprites[1][5])
+                CreateSpriteAnimationClipDefinition (false, "Hit", 0.1F, sprites[1][3], sprites[1][4], sprites[1][5])
             },
             {
                 CharacterState.Attack,
-                CreateSpriteAnimationClipDefinition (false, string.Format("{0}/Attack.anim", outputDirectoryName), 0.1F, sprites[3][0], sprites[3][1], sprites[3][2])
+                CreateSpriteAnimationClipDefinition (false, "Attack", 0.1F, sprites[3][0], sprites[3][1], sprites[3][2])
             },
             {
                 CharacterState.Down,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Down.anim", outputDirectoryName), 0.2F, sprites[0][0], sprites[0][1], sprites[0][2], sprites[0][1])
+                CreateSpriteAnimationClipDefinition (true, "Down", 0.2F, sprites[0][0], sprites[0][1], sprites[0][2], sprites[0][1])
             },
             {
                 CharacterState.Left,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Left.anim", outputDirectoryName), 0.2F, sprites[0][3], sprites[0][4], sprites[0][5], sprites[0][3])
+                CreateSpriteAnimationClipDefinition (true, "Left", 0.2F, sprites[0][3], sprites[0][4], sprites[0][5], sprites[0][3])
             },
             {
                 CharacterState.Right,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Right.anim", outputDirectoryName), 0.2F, sprites[0][6], sprites[0][7], sprites[0][8], sprites[0][7])
+                CreateSpriteAnimationClipDefinition (true, "Right", 0.2F, sprites[0][6], sprites[0][7], sprites[0][8], sprites[0][7])
             },
             {
                 CharacterState.Up,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Up.anim", outputDirectoryName), 0.2F, sprites[0][9], sprites[0][10], sprites[0][11], sprites[0][10])
+                CreateSpriteAnimationClipDefinition (true, "Up", 0.2F, sprites[0][9], sprites[0][10], sprites[0][11], sprites[0][10])
             },
             {
                 CharacterState.Walk,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Walk.anim", outputDirectoryName), 0.2F, sprites[1][9], sprites[1][10], sprites[1][11], sprites[1][10])
+                CreateSpriteAnimationClipDefinition (true, "Walk", 0.2F, sprites[1][9], sprites[1][10], sprites[1][11], sprites[1][10])
             },
             {
                 CharacterState.Win,
-                CreateSpriteAnimationClipDefinition (true, string.Format("{0}/Win.anim", outputDirectoryName), 0.2F, sprites[2][0], sprites[2][1], sprites[2][2], sprites[2][1])
+                CreateSpriteAnimationClipDefinition (true, "Win", 0.2F, sprites[2][0], sprites[2][1], sprites[2][2], sprites[2][1])
             },
         };
     }
 
-    static SpriteAnimationClipDefinition CreateSpriteAnimationClipDefinition(bool isLoop, string resultPath, float frameDuration, params Sprite[] sprites)
+    static SpriteAnimationClipDefinition CreateSpriteAnimationClipDefinition(bool isLoop, string name, float frameDuration, params Sprite[] sprites)
     {
         List<SpriteKeyframeDefinition> spriteKeyframes = sprites
             .Select((sprite, index) => new SpriteKeyframeDefinition
@@ -148,7 +140,7 @@ public static class CharacterAnimatorCreator
             WrapMode = isLoop ? WrapMode.Loop : WrapMode.Default,
             IsLoop = isLoop,
             FrameRate = 4F,
-            ResulutPath = resultPath,
+            Name = name,
         };
     }
 

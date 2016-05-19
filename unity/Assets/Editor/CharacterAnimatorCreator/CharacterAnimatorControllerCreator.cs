@@ -114,6 +114,12 @@ public static class CharacterAnimatorControllerCreator
             }
         }
 
+        foreach (AnimationClip animationClip in animationClipDict.Values)
+        {
+            AssetDatabase.AddObjectToAsset(animationClip, animatorController);
+            AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(animationClip));
+        }
+
         EditorUtility.SetDirty(animatorController);
 
         return animatorController;

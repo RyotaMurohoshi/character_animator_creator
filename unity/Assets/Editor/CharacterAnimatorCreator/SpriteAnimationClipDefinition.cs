@@ -12,7 +12,7 @@ public class SpriteAnimationClipDefinition
 
 	public float FrameRate { get; set; }
 
-	public string ResulutPath { get; set; }
+	public string Name { get; set; }
 }
 
 public class SpriteKeyframeDefinition
