@@ -8,7 +8,7 @@ public static class SpriteAnimationClipCreator
     {
         AnimationClip animClip = ConvertToAnimationClip(spriteAnimationDefinition);
 
-        AssetDatabase.CreateAsset(animClip, spriteAnimationDefinition.ResulutPath);
+        AssetDatabase.CreateAsset(animClip, spriteAnimationDefinition.Name);
 
         EditorUtility.SetDirty(animClip);
 
@@ -18,6 +18,7 @@ public static class SpriteAnimationClipCreator
     public static AnimationClip ConvertToAnimationClip(SpriteAnimationClipDefinition spriteAnimationDefinition)
     {
         AnimationClip animClip = new AnimationClip();
+        animClip.name = spriteAnimationDefinition.Name;
         animClip.frameRate = spriteAnimationDefinition.FrameRate;
         animClip.wrapMode = spriteAnimationDefinition.WrapMode;
 

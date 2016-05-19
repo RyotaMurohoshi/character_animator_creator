@@ -30,7 +30,7 @@ public static class SpriteAnimationClipCreatorExample
             WrapMode = WrapMode.Loop,
             IsLoop = true,
             FrameRate = 60.0F,
-            ResulutPath = "Assets/Sample.anim",
+            Name = "Assets/Sample.anim",
         };
 
         SpriteAnimationClipCreator.CreateAnimationClip(definition);
