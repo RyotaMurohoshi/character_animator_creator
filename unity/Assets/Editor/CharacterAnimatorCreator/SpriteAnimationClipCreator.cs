@@ -17,10 +17,12 @@ public static class SpriteAnimationClipCreator
 
     public static AnimationClip ConvertToAnimationClip(SpriteAnimationClipDefinition spriteAnimationDefinition)
     {
-        AnimationClip animClip = new AnimationClip();
-        animClip.name = spriteAnimationDefinition.Name;
-        animClip.frameRate = spriteAnimationDefinition.FrameRate;
-        animClip.wrapMode = spriteAnimationDefinition.WrapMode;
+        AnimationClip animClip = new AnimationClip
+        {
+            name = spriteAnimationDefinition.Name,
+            frameRate = spriteAnimationDefinition.FrameRate,
+            wrapMode = spriteAnimationDefinition.WrapMode
+        };
 
         if (spriteAnimationDefinition.IsLoop)
         {
