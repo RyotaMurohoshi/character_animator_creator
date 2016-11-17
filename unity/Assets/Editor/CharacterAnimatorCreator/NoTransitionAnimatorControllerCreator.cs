@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using System.Linq;
 
-public static class SingleStateAnimatorControllerCreator
+public static class NoTransitionAnimatorControllerCreator
 {
-    public static RuntimeAnimatorController CreateAnimatorController(SingleStateAnimatorControllerDefinition definition)
+    public static RuntimeAnimatorController CreateAnimatorController(NoTransitionAnimatorControllerDefinition definition)
     {
         AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(definition.ResulutPath);
         AnimatorControllerLayer layer = animatorController.layers.First();

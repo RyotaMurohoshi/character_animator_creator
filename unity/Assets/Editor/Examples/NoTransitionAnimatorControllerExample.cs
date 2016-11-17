@@ -3,9 +3,9 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class SingleStateAnimatorControllerExample
+public static class NoTransitionAnimatorControllerExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/Create AnimatorController")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Example/No Transition Create AnimatorController")]
     public static void CreateAnimatorController()
     {
         IEnumerable<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>();
@@ -15,13 +15,13 @@ public static class SingleStateAnimatorControllerExample
             return;
         }
 
-        var definition = new SingleStateAnimatorControllerDefinition
+        var definition = new NoTransitionAnimatorControllerDefinition
         {
             AnimationClipList = animationClips.ToList(),
             LayerName = "Base Layer",
             ResulutPath = "Assets/Sample.controller",
         };
 
-        SingleStateAnimatorControllerCreator.CreateAnimatorController(definition);
+        NoTransitionAnimatorControllerCreator.CreateAnimatorController(definition);
     }
 }

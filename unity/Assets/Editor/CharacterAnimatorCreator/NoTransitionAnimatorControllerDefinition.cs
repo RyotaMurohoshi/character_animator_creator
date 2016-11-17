@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SingleStateAnimatorControllerDefinition
+public class NoTransitionAnimatorControllerDefinition
 {
     public List<AnimationClip> AnimationClipList { get; set; }
 
