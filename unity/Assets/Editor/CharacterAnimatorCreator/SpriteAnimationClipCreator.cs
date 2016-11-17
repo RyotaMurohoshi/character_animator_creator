@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.Collections.Generic;
 
 public static class SpriteAnimationClipCreator
 {
@@ -43,3 +44,26 @@ public static class SpriteAnimationClipCreator
     }
 }
 
+public class SpriteAnimationClipDefinition
+{
+    public List<SpriteKeyframeDefinition> SpriteKeyframes { get; set; }
+    public WrapMode WrapMode { get; set; }
+    public bool IsLoop { get; set; }
+    public float FrameRate { get; set; }
+    public string Name { get; set; }
+}
+
+public class SpriteKeyframeDefinition
+{
+    public Sprite Value { get; set; }
+    public float Time { get; set; }
+
+    public static explicit operator ObjectReferenceKeyframe(SpriteKeyframeDefinition spriteKeyframe)
+    {
+        return new ObjectReferenceKeyframe
+        {
+            time = spriteKeyframe.Time,
+            value = spriteKeyframe.Value
+        };
+    }
+}
