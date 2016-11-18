@@ -4,15 +4,15 @@ using System.Linq;
 
 public static class SpriteDivider
 {
-    public static void DividSprite(string texturePath, int horizontalCount, int verticalCount)
+    public static void Execute(string texturePath, int horizontalCount, int verticalCount)
     {
         var texture = AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture)) as Texture;
         var pixelPerUnit = Mathf.Min(texture.width / horizontalCount, texture.height / verticalCount);
 
-        DividSprite(texturePath, horizontalCount, verticalCount, pixelPerUnit);
+        Execute(texturePath, horizontalCount, verticalCount, pixelPerUnit);
     }
 
-    public static void DividSprite(string texturePath, int horizontalCount, int verticalCount, int pixelPerUnit)
+    public static void Execute(string texturePath, int horizontalCount, int verticalCount, int pixelPerUnit)
     {
         var importer = TextureImporter.GetAtPath(texturePath) as TextureImporter;
         importer.textureType = TextureImporterType.Sprite;

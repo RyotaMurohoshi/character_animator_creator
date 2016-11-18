@@ -55,7 +55,7 @@ public static class CharacterAnimatorCreator
         foreach (var texturePath in texturePaths)
         {
             string target = "Assets/Resources/" + texturePath + ".png";
-            SpriteDivider.DividSprite(target, 3, 4);
+            SpriteDivider.Execute(target, 3, 4);
         }
 
         var listOfSpriteList = texturePaths
@@ -64,7 +64,7 @@ public static class CharacterAnimatorCreator
 
         Dictionary<CharacterState, SpriteAnimationClipDefinition> definitionDict = CreateCharacterAnimatorDefinition(listOfSpriteList);
         Dictionary<CharacterState, AnimationClip> animationClipDictionary = definitionDict
-            .Select(entry => new { Key = entry.Key, Value = SpriteAnimationClipCreator.ConvertToAnimationClip(entry.Value) })
+            .Select(entry => new { Key = entry.Key, Value = SpriteAnimationClipCreator.Create(entry.Value) })
             .ToDictionary(entry => entry.Key, entry => entry.Value);
 
         string animatorControllerPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name);

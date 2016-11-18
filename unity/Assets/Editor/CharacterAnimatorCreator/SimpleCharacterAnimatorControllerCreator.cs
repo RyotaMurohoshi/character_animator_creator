@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using UnityEditor.Animations;
 using System.Linq;
 
-public static class SimpleTransitionAnimatorControllerCreator
+public static class SimpleCharacterAnimatorControllerCreator
 {
-    public static RuntimeAnimatorController CreateAnimatorController(SimpleTransitionAnimatorControllerDefinition definition)
+    public static RuntimeAnimatorController Create(SimpleTransitionAnimatorControllerDefinition definition)
     {
         AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(definition.ResulutPath);
-        AnimatorControllerLayer layer = animatorController.layers.First();
-        layer.name = definition.LayerName;
-        AnimatorStateMachine stateMachine = layer.stateMachine;
+        AnimatorStateMachine stateMachine = animatorController.layers.First().stateMachine;
 
         AnimatorState defaultState = stateMachine.AddState("Default");
         defaultState.motion = definition.DefaultAnimationClip;
@@ -35,35 +32,37 @@ public static class SimpleTransitionAnimatorControllerCreator
         stateMachine.defaultState = defaultState;
 
         {
-            AnimatorStateTransition defaultToPinchTransition = new AnimatorStateTransition
+            AnimatorStateTransition transition = new AnimatorStateTransition
+            {
+                destinationState = defaultState,
+                hasExitTime = true,
+                exitTime = 1.0F,
+                duration = 0.0F
+            };
+            hitState.AddTransition(transition);
+        }
+
+        {
+            AnimatorStateTransition transition = new AnimatorStateTransition
             {
                 destinationState = pinchState,
                 hasExitTime = false,
                 duration = 0.0F,
             };
-            defaultToPinchTransition.AddCondition(AnimatorConditionMode.Less, 0.3F, hpRateParameter.name);
-            defaultState.AddTransition(defaultToPinchTransition);
+            transition.AddCondition(AnimatorConditionMode.Less, 0.3F, hpRateParameter.name);
+            defaultState.AddTransition(transition);
         }
 
         {
-            AnimatorStateTransition pinchToDefulatTransition = new AnimatorStateTransition
+            AnimatorStateTransition transition = new AnimatorStateTransition
             {
                 destinationState = defaultState,
                 hasExitTime = false,
                 duration = 0.0F,
             };
-            pinchToDefulatTransition.AddCondition(AnimatorConditionMode.Greater, 0.3F, hpRateParameter.name);
-            pinchState.AddTransition(pinchToDefulatTransition);
+            transition.AddCondition(AnimatorConditionMode.Greater, 0.3F, hpRateParameter.name);
+            pinchState.AddTransition(transition);
         }
-
-        {
-            AnimatorStateTransition transition = hitState.AddTransition(defaultState);
-            transition.hasExitTime = true;
-            transition.exitTime = 1.0F;
-            transition.duration = 0.0F;
-        }
-
-        EditorUtility.SetDirty(animatorController);
 
         return animatorController;
     }
@@ -78,8 +77,6 @@ public class SimpleTransitionAnimatorControllerDefinition
     public AnimationClip HitAnimationClip { get; set; }
 
     public AnimationClip WalkAnimationClip { get; set; }
-
-    public string LayerName { get; set; }
 
     public string ResulutPath { get; set; }
 }

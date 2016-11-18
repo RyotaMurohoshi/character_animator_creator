@@ -5,18 +5,7 @@ using System.Collections.Generic;
 
 public static class SpriteAnimationClipCreator
 {
-    public static AnimationClip CreateAnimationClip(SpriteAnimationClipDefinition spriteAnimationDefinition)
-    {
-        AnimationClip animClip = ConvertToAnimationClip(spriteAnimationDefinition);
-
-        AssetDatabase.CreateAsset(animClip, spriteAnimationDefinition.Name);
-
-        EditorUtility.SetDirty(animClip);
-
-        return animClip;
-    }
-
-    public static AnimationClip ConvertToAnimationClip(SpriteAnimationClipDefinition spriteAnimationDefinition)
+    public static AnimationClip Create(SpriteAnimationClipDefinition spriteAnimationDefinition)
     {
         AnimationClip animClip = new AnimationClip
         {
@@ -35,7 +24,7 @@ public static class SpriteAnimationClipCreator
         EditorCurveBinding editorCurveBinding = EditorCurveBinding.PPtrCurve(string.Empty, typeof(SpriteRenderer), "m_Sprite");
 
         ObjectReferenceKeyframe[] keyframes = spriteAnimationDefinition.SpriteKeyframes
-            .Select(spriteKeyframe => (ObjectReferenceKeyframe)spriteKeyframe)
+            .Select(spriteKeyframe => spriteKeyframe.ToObjectReferenceKeyframe())
             .ToArray();
 
         AnimationUtility.SetObjectReferenceCurve(animClip, editorCurveBinding, keyframes);
@@ -58,12 +47,12 @@ public class SpriteKeyframeDefinition
     public Sprite Value { get; set; }
     public float Time { get; set; }
 
-    public static explicit operator ObjectReferenceKeyframe(SpriteKeyframeDefinition spriteKeyframe)
+    public ObjectReferenceKeyframe ToObjectReferenceKeyframe()
     {
         return new ObjectReferenceKeyframe
         {
-            time = spriteKeyframe.Time,
-            value = spriteKeyframe.Value
+            time = this.Time,
+            value = this.Value
         };
     }
 }

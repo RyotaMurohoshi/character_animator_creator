@@ -22,7 +22,7 @@ public static class SpriteDividerExample
         foreach (Texture target in targets)
         {
             string assetPath = AssetDatabase.GetAssetPath(target);
-            SpriteDivider.DividSprite(assetPath, horizontalCount, verticalCount);
+            SpriteDivider.Execute(assetPath, horizontalCount, verticalCount);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 public static class NoTransitionAnimatorControllerExample
 {
     [MenuItem("Assets/CharacterAnimatorCreator/Example/No Transition Create AnimatorController")]
-    public static void CreateAnimatorController()
+    public static void Execute()
     {
         IEnumerable<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>();
         if (!animationClips.Any())
@@ -18,10 +18,9 @@ public static class NoTransitionAnimatorControllerExample
         var definition = new NoTransitionAnimatorControllerDefinition
         {
             AnimationClipList = animationClips.ToList(),
-            LayerName = "Base Layer",
             ResulutPath = "Assets/Sample.controller",
         };
 
-        NoTransitionAnimatorControllerCreator.CreateAnimatorController(definition);
+        NoTransitionAnimatorControllerCreator.Create(definition);
     }
 }
