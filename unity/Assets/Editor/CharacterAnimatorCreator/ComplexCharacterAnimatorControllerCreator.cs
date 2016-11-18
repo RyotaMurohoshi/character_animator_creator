@@ -19,7 +19,7 @@ public enum CharacterState
     Win
 }
 
-public static class CharacterAnimatorControllerCreator
+public static class ComplexCharacterAnimatorControllerCreator
 {
     public static RuntimeAnimatorController CreateAnimatorController(Dictionary<CharacterState, AnimationClip> animationClipDict, string resultPath)
     {

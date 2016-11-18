@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Linq;
 using System.Collections.Generic;
 
-public static class CharacterAnimatorCreator
+public static class ComplexCharacterAnimatorControllerCreatorExample
 {
     static readonly string ResourcesFolderName;
     static readonly string AnimatorControllerFolderName;
@@ -15,7 +15,7 @@ public static class CharacterAnimatorCreator
     static readonly string AnimatorControllerPath;
     static readonly string PrefabPath;
 
-    static CharacterAnimatorCreator()
+    static ComplexCharacterAnimatorControllerCreatorExample()
     {
         ResourcesFolderName = "Resources";
         AnimatorControllerFolderName = "AnimatorController";
@@ -69,7 +69,7 @@ public static class CharacterAnimatorCreator
 
         string animatorControllerPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name);
         RuntimeAnimatorController animatorController =
-            CharacterAnimatorControllerCreator.CreateAnimatorController(animationClipDictionary, animatorControllerPath);
+            ComplexCharacterAnimatorControllerCreator.CreateAnimatorController(animationClipDictionary, animatorControllerPath);
 
         string prefabPath = string.Format("{0}/{1}.prefab", PrefabPath, name);
         CreatePrefab(animatorController, prefabPath);
