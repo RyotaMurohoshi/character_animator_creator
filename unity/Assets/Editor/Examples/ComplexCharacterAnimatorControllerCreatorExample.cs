@@ -8,23 +8,19 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
 {
     static readonly string ResourcesFolderName;
     static readonly string AnimatorControllerFolderName;
-    static readonly string PrefabFolderName;
 
     static readonly string AssetsPath;
     static readonly string ResourcesPath;
     static readonly string AnimatorControllerPath;
-    static readonly string PrefabPath;
 
     static ComplexCharacterAnimatorControllerCreatorExample()
     {
         ResourcesFolderName = "Resources";
         AnimatorControllerFolderName = "AnimatorController";
-        PrefabFolderName = "Prefab";
 
         AssetsPath = "Assets";
         ResourcesPath = string.Format("{0}/{1}", AssetsPath, ResourcesFolderName);
         AnimatorControllerPath = string.Format("{0}/{1}", ResourcesPath, AnimatorControllerFolderName);
-        PrefabPath = string.Format("{0}/{1}", ResourcesPath, PrefabFolderName);
     }
 
 
@@ -47,7 +43,6 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
     {
         CreateFolderIfNotExist(AssetsPath, ResourcesFolderName);
         CreateFolderIfNotExist(ResourcesPath, AnimatorControllerFolderName);
-        CreateFolderIfNotExist(ResourcesPath, PrefabFolderName);
 
         var suffixArray = new[] { "", "_1", "_2", "_3" };
         var texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix));
@@ -68,11 +63,7 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
             .ToDictionary(entry => entry.Key, entry => entry.Value);
 
         string animatorControllerPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name);
-        RuntimeAnimatorController animatorController =
-            ComplexCharacterAnimatorControllerCreator.CreateAnimatorController(animationClipDictionary, animatorControllerPath);
-
-        string prefabPath = string.Format("{0}/{1}.prefab", PrefabPath, name);
-        CreatePrefab(animatorController, prefabPath);
+        ComplexCharacterAnimatorControllerCreator.CreateAnimatorController(animationClipDictionary, animatorControllerPath);
     }
 
     static Dictionary<CharacterState, SpriteAnimationClipDefinition> CreateCharacterAnimatorDefinition(List<List<Sprite>> sprites)
@@ -155,22 +146,5 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
         {
             AssetDatabase.DeleteAsset(actualPath);
         }
-    }
-
-    static GameObject CreatePrefab(RuntimeAnimatorController animatorController, string outputPath)
-    {
-        GameObject gameObject = EditorUtility.CreateGameObjectWithHideFlags(
-            animatorController.name,
-            HideFlags.HideInHierarchy,
-            typeof(SpriteRenderer), typeof(Animator)
-        );
-
-        gameObject.GetComponent<Animator>().runtimeAnimatorController = animatorController;
-
-        GameObject result = PrefabUtility.CreatePrefab(outputPath, gameObject, ReplacePrefabOptions.ReplaceNameBased);
-
-        Editor.DestroyImmediate(gameObject);
-
-        return result;
     }
 }
