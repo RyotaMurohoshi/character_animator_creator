@@ -23,7 +23,6 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
         AnimatorControllerPath = string.Format("{0}/{1}", ResourcesPath, AnimatorControllerFolderName);
     }
 
-
     [MenuItem("Assets/CharacterAnimatorCreator/Execute")]
     static void TextureToAnimatiorController()
     {
@@ -45,78 +44,76 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
         CreateFolderIfNotExist(ResourcesPath, AnimatorControllerFolderName);
 
         var suffixArray = new[] { "", "_1", "_2", "_3" };
-        var texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix));
+        var texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix)).ToArray();
 
         foreach (var texturePath in texturePaths)
         {
-            string target = "Assets/Resources/" + texturePath + ".png";
-            SpriteDivider.Execute(target, 3, 4);
+            var imagePath = "Assets/Resources/" + texturePath + ".png";
+            SpriteDivider.Execute(imagePath, 3, 4);
         }
 
         var listOfSpriteList = texturePaths
-            .Select(texurePath => Resources.LoadAll<Sprite>(texurePath).ToList())
+            .Select(texturePath => Resources.LoadAll<Sprite>(texturePath).ToList())
             .ToList();
 
-        Dictionary<CharacterState, SpriteAnimationClipDefinition> definitionDict = CreateCharacterAnimatorDefinition(listOfSpriteList);
-        Dictionary<CharacterState, AnimationClip> animationClipDictionary = definitionDict
-            .Select(entry => new { Key = entry.Key, Value = SpriteAnimationClipCreator.Create(entry.Value) })
-            .ToDictionary(entry => entry.Key, entry => entry.Value);
-
-        string animatorControllerPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name);
-        ComplexCharacterAnimatorControllerCreator.CreateAnimatorController(animationClipDictionary, animatorControllerPath);
+        ComplexCharacterAnimatorControllerCreator.CreateAnimatorController(new ComplexCharacterAnimatorControllerDefinition
+        {
+            AnimationClipDictionary = CreateDictionary(listOfSpriteList),
+            ResulutPath = string.Format("{0}/{1}.controller", AnimatorControllerPath, name)
+        });
     }
 
-    static Dictionary<CharacterState, SpriteAnimationClipDefinition> CreateCharacterAnimatorDefinition(List<List<Sprite>> sprites)
+    static Dictionary<CharacterState, AnimationClip> CreateDictionary(List<List<Sprite>> sprites)
     {
-        return new Dictionary<CharacterState, SpriteAnimationClipDefinition>{
+        return new Dictionary<CharacterState, AnimationClip>{
             {
                 CharacterState.Default,
-                CreateSpriteAnimationClipDefinition (true, "Default", 0.2F, sprites[1][0], sprites[1][1], sprites[1][2], sprites[1][1])
+                CreateAnimationClip (true, "Default", 0.2F, sprites[1][0], sprites[1][1], sprites[1][2], sprites[1][1])
             },
             {
                 CharacterState.Dead,
-                CreateSpriteAnimationClipDefinition (false, "Dead", 0.2F, sprites[2][9], sprites[2][10],sprites[2][11])
+                CreateAnimationClip (false, "Dead", 0.2F, sprites[2][9], sprites[2][10],sprites[2][11])
             },
             {
                 CharacterState.Pinch,
-                CreateSpriteAnimationClipDefinition (true, "Pinch", 0.2F, sprites[1][6], sprites[1][7], sprites[1][8], sprites[1][7])
+                CreateAnimationClip (true, "Pinch", 0.2F, sprites[1][6], sprites[1][7], sprites[1][8], sprites[1][7])
             },
             {
                 CharacterState.Hit,
-                CreateSpriteAnimationClipDefinition (false, "Hit", 0.1F, sprites[1][3], sprites[1][4], sprites[1][5])
+                CreateAnimationClip (false, "Hit", 0.1F, sprites[1][3], sprites[1][4], sprites[1][5])
             },
             {
                 CharacterState.Attack,
-                CreateSpriteAnimationClipDefinition (false, "Attack", 0.1F, sprites[3][0], sprites[3][1], sprites[3][2])
+                CreateAnimationClip (false, "Attack", 0.1F, sprites[3][0], sprites[3][1], sprites[3][2])
             },
             {
                 CharacterState.Down,
-                CreateSpriteAnimationClipDefinition (true, "Down", 0.2F, sprites[0][0], sprites[0][1], sprites[0][2], sprites[0][1])
+                CreateAnimationClip (true, "Down", 0.2F, sprites[0][0], sprites[0][1], sprites[0][2], sprites[0][1])
             },
             {
                 CharacterState.Left,
-                CreateSpriteAnimationClipDefinition (true, "Left", 0.2F, sprites[0][3], sprites[0][4], sprites[0][5], sprites[0][3])
+                CreateAnimationClip (true, "Left", 0.2F, sprites[0][3], sprites[0][4], sprites[0][5], sprites[0][3])
             },
             {
                 CharacterState.Right,
-                CreateSpriteAnimationClipDefinition (true, "Right", 0.2F, sprites[0][6], sprites[0][7], sprites[0][8], sprites[0][7])
+                CreateAnimationClip (true, "Right", 0.2F, sprites[0][6], sprites[0][7], sprites[0][8], sprites[0][7])
             },
             {
                 CharacterState.Up,
-                CreateSpriteAnimationClipDefinition (true, "Up", 0.2F, sprites[0][9], sprites[0][10], sprites[0][11], sprites[0][10])
+                CreateAnimationClip (true, "Up", 0.2F, sprites[0][9], sprites[0][10], sprites[0][11], sprites[0][10])
             },
             {
                 CharacterState.Walk,
-                CreateSpriteAnimationClipDefinition (true, "Walk", 0.2F, sprites[1][9], sprites[1][10], sprites[1][11], sprites[1][10])
+                CreateAnimationClip (true, "Walk", 0.2F, sprites[1][9], sprites[1][10], sprites[1][11], sprites[1][10])
             },
             {
                 CharacterState.Win,
-                CreateSpriteAnimationClipDefinition (true, "Win", 0.2F, sprites[2][0], sprites[2][1], sprites[2][2], sprites[2][1])
+                CreateAnimationClip (true, "Win", 0.2F, sprites[2][0], sprites[2][1], sprites[2][2], sprites[2][1])
             },
         };
     }
 
-    static SpriteAnimationClipDefinition CreateSpriteAnimationClipDefinition(bool isLoop, string name, float frameDuration, params Sprite[] sprites)
+    static AnimationClip CreateAnimationClip(bool isLoop, string name, float frameDuration, params Sprite[] sprites)
     {
         List<SpriteKeyframeDefinition> spriteKeyframes = sprites
             .Select((sprite, index) => new SpriteKeyframeDefinition
@@ -125,14 +122,14 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
                 Time = frameDuration * index
             }).ToList();
 
-        return new SpriteAnimationClipDefinition
+        return SpriteAnimationClipCreator.Create(new SpriteAnimationClipDefinition
         {
             SpriteKeyframes = spriteKeyframes,
             WrapMode = isLoop ? WrapMode.Loop : WrapMode.Default,
             IsLoop = isLoop,
             FrameRate = 4F,
             Name = name,
-        };
+        });
     }
 
     static void CreateFolderIfNotExist(string parentFolder, string newFolderName)
