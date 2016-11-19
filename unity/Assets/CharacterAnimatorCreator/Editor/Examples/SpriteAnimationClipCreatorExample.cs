@@ -5,8 +5,8 @@ using System.Linq;
 
 public static class SpriteAnimationClipCreatorExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/Create AnimationClip")]
-    public static void CreateAnimationClip()
+    [MenuItem("Assets/CharacterAnimatorCreator/Create AnimationClip")]
+    public static void Execute()
     {
         IEnumerable<Sprite> sprites = Selection.objects.OfType<Sprite>();
         if (!sprites.Any())
@@ -26,13 +26,16 @@ public static class SpriteAnimationClipCreatorExample
 
         SpriteAnimationClipDefinition definition = new SpriteAnimationClipDefinition
         {
+            Name = "Sample",
             SpriteKeyframes = spriteKeyframes,
             WrapMode = WrapMode.Loop,
             IsLoop = true,
-            FrameRate = 60.0F,
-            Name = "Assets/Sample.anim",
+            FrameRate = 60.0F
         };
 
-        SpriteAnimationClipCreator.CreateAnimationClip(definition);
+        string path = "Assets/Sample.anim";
+        AnimationClip animClip = SpriteAnimationClipCreator.Create(definition);
+        AssetDatabase.CreateAsset(animClip, path);
     }
 }
+

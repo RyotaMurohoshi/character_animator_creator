@@ -4,18 +4,20 @@ using System.Linq;
 
 public static class SpriteDivider
 {
-    public static void DividSprite(string texturePath, int horizontalCount, int verticalCount)
+    public static void Execute(string texturePath, int horizontalCount, int verticalCount)
     {
         TextureImporter importer = TextureImporter.GetAtPath(texturePath) as TextureImporter;
-
         importer.textureType = TextureImporterType.Sprite;
         importer.spriteImportMode = SpriteImportMode.Multiple;
         importer.filterMode = FilterMode.Point;
+        importer.mipmapEnabled = false;
+
         EditorUtility.SetDirty(importer);
         AssetDatabase.ImportAsset(texturePath, ImportAssetOptions.ForceUpdate);
 
         Texture texture = AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture)) as Texture;
-        importer.spritePixelsPerUnit = Mathf.Max(texture.width / horizontalCount, texture.height / verticalCount);
+        int pixelPerUnit = Mathf.Min(texture.width / horizontalCount, texture.height / verticalCount);
+        importer.spritePixelsPerUnit = pixelPerUnit;
         importer.spritesheet = CreateSpriteMetaDataArray(texture, horizontalCount, verticalCount);
 
         EditorUtility.SetDirty(importer);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class SpriteDividerExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/Divide Textures")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Divide Textures")]
     public static void DivideImages()
     {
         int horizontalCount = 4;
@@ -22,7 +22,7 @@ public static class SpriteDividerExample
         foreach (Texture target in targets)
         {
             string assetPath = AssetDatabase.GetAssetPath(target);
-            SpriteDivider.DividSprite(assetPath, horizontalCount, verticalCount);
+            SpriteDivider.Execute(assetPath, horizontalCount, verticalCount);
         }
     }
 }
