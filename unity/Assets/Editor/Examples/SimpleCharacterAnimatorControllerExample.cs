@@ -24,7 +24,7 @@ public static class SimpleCharacterAnimatorControllerCreatorExample
             .OfType<Sprite>()
             .ToList();
 
-        var definition = new SimpleTransitionAnimatorControllerDefinition
+        var definition = new SimpleCharacterAnimatorControllerDefinition
         {
             ResulutPath = "Assets/SimpleAnimator.controller",
             DefaultAnimationClip = CreateSpriteAnimationClip(true, "Default", 0.2F, sprites[0], sprites[1], sprites[2], sprites[1]),

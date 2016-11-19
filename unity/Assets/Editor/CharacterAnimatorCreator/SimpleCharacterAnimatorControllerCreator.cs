@@ -4,7 +4,7 @@ using System.Linq;
 
 public static class SimpleCharacterAnimatorControllerCreator
 {
-    public static RuntimeAnimatorController Create(SimpleTransitionAnimatorControllerDefinition definition)
+    public static RuntimeAnimatorController Create(SimpleCharacterAnimatorControllerDefinition definition)
     {
         AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(definition.ResulutPath);
         AnimatorStateMachine stateMachine = animatorController.layers.First().stateMachine;
@@ -68,7 +68,7 @@ public static class SimpleCharacterAnimatorControllerCreator
     }
 }
 
-public class SimpleTransitionAnimatorControllerDefinition
+public class SimpleCharacterAnimatorControllerDefinition
 {
     public AnimationClip DefaultAnimationClip { get; set; }
 
