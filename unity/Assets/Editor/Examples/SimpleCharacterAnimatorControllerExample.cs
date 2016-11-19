@@ -1,30 +1,31 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.Collections.Generic;
 
 public static class SimpleCharacterAnimatorControllerCreatorExample
 {
     [MenuItem("Assets/CharacterAnimatorCreator/Example/Simple Character AnimatorController Create")]
     public static void Execute()
     {
-        var textures = Selection.objects.OfType<Texture>();
+        List<Texture> textures = Selection.objects.OfType<Texture>().ToList();
         if (!textures.Any())
         {
             Debug.LogWarning("Please selecting texture.");
             return;
         }
 
-        var targetTexture = textures.First();
+        Texture targetTexture = textures.First();
 
-        var assetPath = AssetDatabase.GetAssetPath(targetTexture);
+        string assetPath = AssetDatabase.GetAssetPath(targetTexture);
         SpriteDivider.Execute(assetPath, 3, 4);
 
-        var sprites = AssetDatabase
+        List<Sprite> sprites = AssetDatabase
             .LoadAllAssetRepresentationsAtPath(assetPath)
             .OfType<Sprite>()
             .ToList();
 
-        var definition = new SimpleCharacterAnimatorControllerDefinition
+        SimpleCharacterAnimatorControllerDefinition definition = new SimpleCharacterAnimatorControllerDefinition
         {
             ResulutPath = "Assets/SimpleAnimator.controller",
             DefaultAnimationClip = CreateSpriteAnimationClip(true, "Default", 0.2F, sprites[0], sprites[1], sprites[2], sprites[1]),
@@ -33,7 +34,7 @@ public static class SimpleCharacterAnimatorControllerCreatorExample
             WalkAnimationClip = CreateSpriteAnimationClip(true, "Walk", 0.2F, sprites[9], sprites[10], sprites[11], sprites[10])
         };
 
-        var animatorController = SimpleCharacterAnimatorControllerCreator.Create(definition);
+        RuntimeAnimatorController animatorController = SimpleCharacterAnimatorControllerCreator.Create(definition);
 
         AssetDatabase.AddObjectToAsset(definition.DefaultAnimationClip, animatorController);
         AssetDatabase.AddObjectToAsset(definition.PinchAnimationClip, animatorController);
@@ -45,22 +46,20 @@ public static class SimpleCharacterAnimatorControllerCreatorExample
 
     static AnimationClip CreateSpriteAnimationClip(bool isLoop, string name, float frameDuration, params Sprite[] sprites)
     {
-        var spriteKeyframes = sprites
+        List<SpriteKeyframeDefinition> spriteKeyframes = sprites
             .Select((sprite, index) => new SpriteKeyframeDefinition
             {
                 Value = sprite,
                 Time = frameDuration * index
             }).ToList();
 
-        var definition = new SpriteAnimationClipDefinition
+        return SpriteAnimationClipCreator.Create(new SpriteAnimationClipDefinition
         {
             SpriteKeyframes = spriteKeyframes,
             WrapMode = isLoop ? WrapMode.Loop : WrapMode.Default,
             IsLoop = isLoop,
             FrameRate = 4F,
             Name = name,
-        };
-
-        return SpriteAnimationClipCreator.Create(definition);
+        });
     }
 }

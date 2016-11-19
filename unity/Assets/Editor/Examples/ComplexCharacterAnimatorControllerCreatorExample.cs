@@ -43,8 +43,8 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
         CreateFolderIfNotExist(AssetsPath, ResourcesFolderName);
         CreateFolderIfNotExist(ResourcesPath, AnimatorControllerFolderName);
 
-        var suffixArray = new[] { "", "_1", "_2", "_3" };
-        var texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix)).ToArray();
+        string[] suffixArray = new[] { "", "_1", "_2", "_3" };
+        string[] texturePaths = suffixArray.Select(suffix => string.Format("CharacterImages/{0}/${1}{2}", name, name, suffix)).ToArray();
 
         foreach (var texturePath in texturePaths)
         {
@@ -52,7 +52,7 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
             SpriteDivider.Execute(imagePath, 3, 4);
         }
 
-        var listOfSpriteList = texturePaths
+        List<List<Sprite>> listOfSpriteList = texturePaths
             .Select(texturePath => Resources.LoadAll<Sprite>(texturePath).ToList())
             .ToList();
 

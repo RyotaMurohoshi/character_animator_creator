@@ -8,16 +8,16 @@ public static class NoTransitionAnimatorControllerExample
     [MenuItem("Assets/CharacterAnimatorCreator/Example/No Transition Create AnimatorController")]
     public static void Execute()
     {
-        IEnumerable<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>();
+        List<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>().ToList();
         if (!animationClips.Any())
         {
             Debug.LogWarning("Please selecting animation clips.");
             return;
         }
 
-        var definition = new NoTransitionAnimatorControllerDefinition
+        NoTransitionAnimatorControllerDefinition definition = new NoTransitionAnimatorControllerDefinition
         {
-            AnimationClipList = animationClips.ToList(),
+            AnimationClipList = animationClips,
             ResulutPath = "Assets/Sample.controller",
         };
 
