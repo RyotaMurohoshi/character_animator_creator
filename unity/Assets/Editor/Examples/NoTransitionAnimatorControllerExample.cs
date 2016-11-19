@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class NoTransitionAnimatorControllerExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/No Transition Create AnimatorController")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Create No Transition AnimatorController")]
     public static void Execute()
     {
         List<AnimationClip> animationClips = Selection.objects.OfType<AnimationClip>().ToList();

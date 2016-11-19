@@ -23,7 +23,7 @@ public static class ComplexCharacterAnimatorControllerCreatorExample
         AnimatorControllerPath = string.Format("{0}/{1}", ResourcesPath, AnimatorControllerFolderName);
     }
 
-    [MenuItem("Assets/CharacterAnimatorCreator/Execute")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Create Cpmplex Transition AnimatorController")]
     static void TextureToAnimatiorController()
     {
         if (!Selection.objects.Any())

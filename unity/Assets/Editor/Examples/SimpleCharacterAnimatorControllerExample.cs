@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class SimpleCharacterAnimatorControllerCreatorExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/Simple Character AnimatorController Create")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Create Simple Character AnimatorController")]
     public static void Execute()
     {
         List<Texture> textures = Selection.objects.OfType<Texture>().ToList();

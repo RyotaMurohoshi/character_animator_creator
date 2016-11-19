@@ -3,7 +3,7 @@ using UnityEditor;
 
 public static class SimplePrefabCreatorExample
 {
-    [MenuItem("Assets/CharacterAnimatorCreator/Example/Create Empty Prefab")]
+    [MenuItem("Assets/CharacterAnimatorCreator/Create Empty Prefab")]
     public static void Execute()
     {
         string name = "target";
