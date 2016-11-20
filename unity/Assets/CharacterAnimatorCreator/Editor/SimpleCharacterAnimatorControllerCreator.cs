@@ -4,10 +4,13 @@ using System.Linq;
 
 public static class SimpleCharacterAnimatorControllerCreator
 {
-    public static RuntimeAnimatorController Create(SimpleCharacterAnimatorControllerDefinition definition)
+    public static RuntimeAnimatorController Create(
+        SimpleCharacterAnimatorControllerDefinition definition)
     {
-        AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(definition.ResulutPath);
-        AnimatorStateMachine stateMachine = animatorController.layers.First().stateMachine;
+        AnimatorController animatorController =
+            AnimatorController.CreateAnimatorControllerAtPath(definition.ResulutPath);
+        AnimatorStateMachine stateMachine =
+            animatorController.layers.First().stateMachine;
 
         AnimatorState defaultState = stateMachine.AddState("Default");
         defaultState.motion = definition.DefaultAnimationClip;
@@ -21,12 +24,13 @@ public static class SimpleCharacterAnimatorControllerCreator
         AnimatorState walkState = stateMachine.AddState("Walk");
         walkState.motion = definition.WalkAnimationClip;
 
-        AnimatorControllerParameter hpRateParameter = new AnimatorControllerParameter
-        {
-            name = "HpRate",
-            defaultFloat = 1.0F,
-            type = AnimatorControllerParameterType.Float
-        };
+        AnimatorControllerParameter hpRateParameter =
+            new AnimatorControllerParameter
+            {
+                name = "HpRate",
+                defaultFloat = 1.0F,
+                type = AnimatorControllerParameterType.Float
+            };
         animatorController.AddParameter(hpRateParameter);
 
         stateMachine.defaultState = defaultState;

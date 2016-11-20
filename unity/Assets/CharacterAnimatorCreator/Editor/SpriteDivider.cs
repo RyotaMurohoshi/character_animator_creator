@@ -24,7 +24,10 @@ public static class SpriteDivider
         AssetDatabase.ImportAsset(texturePath, ImportAssetOptions.ForceUpdate);
     }
 
-    static SpriteMetaData[] CreateSpriteMetaDataArray(Texture texture, int horizontalCount, int verticalCount)
+    static SpriteMetaData[] CreateSpriteMetaDataArray(
+        Texture texture,
+        int horizontalCount,
+        int verticalCount)
     {
         float spriteWidth = texture.width / horizontalCount;
         float spriteHeight = texture.height / verticalCount;
@@ -39,7 +42,11 @@ public static class SpriteDivider
                 return new SpriteMetaData
                 {
                     name = string.Format("{0}_{1}", texture.name, index),
-                    rect = new Rect(spriteWidth * x, texture.height - spriteHeight * (y + 1), spriteWidth, spriteHeight)
+                    rect = new Rect(
+                        x: spriteWidth * x,
+                        y: texture.height - spriteHeight * (y + 1),
+                        width: spriteWidth,
+                        height: spriteHeight)
                 };
             })
             .ToArray();

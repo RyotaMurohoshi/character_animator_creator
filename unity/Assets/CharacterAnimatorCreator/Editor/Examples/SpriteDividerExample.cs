@@ -8,7 +8,7 @@ public static class SpriteDividerExample
     [MenuItem("Assets/CharacterAnimatorCreator/Divide Textures")]
     public static void DivideImages()
     {
-        int horizontalCount = 4;
+        int horizontalCount = 3;
         int verticalCount = 4;
 
         IEnumerable<Texture> targets = Selection.objects.OfType<Texture>();
